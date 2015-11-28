@@ -14,4 +14,7 @@ Why Assembly
 * Understand software that still be written in Assembly such as Embedded Sytems.
 * Feel badass :)
 
-
+Compile the examples
+--------------------
+as -gstabs example.s -o example.o
+ld example.o -o example

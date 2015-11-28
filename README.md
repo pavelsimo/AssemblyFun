@@ -16,5 +16,5 @@ Why Assembly
 
 Compile the examples
 --------------------
-as -gstabs example.s -o example.o
-ld example.o -o example
+    as -gstabs example.s -o example.o
+    ld example.o -o example

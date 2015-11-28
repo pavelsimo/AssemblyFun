@@ -1,2 +1,17 @@
-# AssemblyFun
-AssemblyFun is a collection of simple Assembly language examples. This repository will be focus in Linux Assembly (AT&amp;T Syntax).
+AssemblyFun
+===========
+AssemblyFun is a collection of simple Assembly language examples.
+
+About the code examples
+-----------------------
+All the code examples will be written in Linux Assembly (AT&amp;T Syntax). Initially, I will be focus in x86 architecture examples. Later on, x64 examples will be included as well.
+
+Why Assembly
+------------
+* Understad high-level components from a low-level perpective. 
+* Learn how the computer run a program.
+* Understand how compiler optimize my code.
+* Understand software that still be written in Assembly such as Embedded Sytems.
+* Feel badass :)
+
+

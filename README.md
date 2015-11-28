@@ -4,7 +4,7 @@ AssemblyFun is a collection of simple Assembly language examples.
 
 About the code examples
 -----------------------
-All the code examples will be written in Linux Assembly (AT&amp;T Syntax). Initially, I will be focus in x86 architecture examples. Later on, x64 examples will be included as well.
+All the code examples will be written in Linux Assembly (AT&amp;T Syntax). Initially, I will be focus in IA-32 examples. Later on, IA-64 examples will be included as well.
 
 Why Assembly
 ------------

@@ -2,8 +2,33 @@
 
 .text
     .globl _start
-    .type Add, @function    # Add(int a, int b)
-    .type Print, @function  # Print(int n)
+    .type Add, @function       # Add(int a, int b)
+    .type Print, @function     # Print(int n)
+
+    # \p1 - fd
+    # \p2 - buffer
+    # \p3 - size
+    .macro WRITE p1, p2, p3
+       movl $4, %eax         # write(int fd, const void *buf, size_t count)
+       movl \p1, %ebx        # fd
+       movl \p2, %ecx        # buffer
+       movl \p3, %edx        # size
+       int $0x80             # software interrupt
+    .endm
+
+    # \p1 - status
+    .macro EXIT p1
+        movl $1, %eax    # exit(int status)
+        movl \p1, %ebx   # status
+        int $0x80
+    .endm
+
+    # \p1 - x
+    .macro ABS \p1
+     # sarl  $31, %eax         #  shift arithmetic right : x >>> 31 , eax now represents y
+     # xorl  -8(%sbp), %edx    #  %edx = x XOR y
+    .endm
+    
 
     Add:
         pushl %ebp
@@ -27,7 +52,14 @@
         movl $0, %edx
         movl $0, %esi       # digit counter
         cmpl $0, %eax
-        jle end
+        jge begin
+        pushl $1
+        pushl $0x2d         # - (0x2d)
+        pushl $1
+        WRITE 16(%ebp), 12(%ebp), 8(%ebp)
+        # print -
+        # abs(%eax)
+           
         begin:
             movl $0, %edx
             movl $10, %ecx
@@ -35,7 +67,6 @@
             incl %esi       
             addl $48, %edx  # add 48 ('0') to the digit
             pushl %edx      # push %edx % 10
-
             cmpl $0, %eax
             jg begin
         end:
@@ -45,23 +76,15 @@
         jle end2
         begin2:
             decl %esi
-
-            movl $4, %eax    # write syscall
-            movl $1, %ebx    # fd=1 stdout
-            movl %esp, %ecx  # buffer=digit
-            movl $1, %edx    # size=1
-            int $0x80        # software interrupt
-
+            WRITE $1, %esp, $1
             addl $4, %esp    # adjusting the stack 4 bytes
             cmpl $0, %esi
             jg begin2
         end2:
 
-        movl $4, %eax    # write syscall
-        movl $1, %ebx    # fd=1 stdout
-        movl $0x0A, %ecx   # buffer='\n'
-        movl $1, %edx    # size=1
-        int $0x80        # software interrupt
+        pushl $0x0A  # \n
+        WRITE $1, %esp, $1
+        addl $4, %esp
                  
         movl %ebp, %esp
         popl %ebp
@@ -72,8 +95,8 @@
         # =================
         # Add
         # ================
-        pushl $150
-        pushl $50
+        pushl $-220
+        pushl $200
         call Add
         addl $8, %esp   # adjust the stack pointer
         
